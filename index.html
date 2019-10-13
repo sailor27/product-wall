@@ -1,0 +1,36 @@
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>API Exercise</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+  <style type="text/css">
+    body {
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/jsx">
+      <!-- Description
+      Using the url below, make a GET request to retrieve a list of products.
+      Then, using React, display a list of components which display the name of the product, an image of the product, its price, and a description.
+      If time allows, make the list scrollable vertically, make the rows include the number of product cards which fit within the width of the list, and make another request for the next page of products when the user has scrolled to the end of the current products.
+      -->
+      const url = 'https://api.bestbuy.com/v1/products(search=oven&search=stainless&search=steel)?format=json&show=all&apiKey= mPlbr5GXMVkagVgzwT7T2V5X';
+
+      
+class ProductsList extends React.Component {
+        render() { return 'test';
+      } }
+      ReactDOM.render(
+  <ProductsList />, document.getElementById('root')
+  );
+</script>
+</body>
+
+</html>
