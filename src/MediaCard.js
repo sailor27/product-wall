@@ -12,10 +12,16 @@ import {
 
 const useStyles = makeStyles({
   card: {
-    width: 660
+    width: 660,
+    height: 400,
+    margin: 10
+  },
+  cardAction: {
+    height: '100%'
   },
   media: {
-    height: 200,
+    height: 170,
+    width: 250,
   }
 });
 
@@ -24,14 +30,19 @@ const MediaCard = ({name, image, longDescription, regularPrice, salePrice }) => 
 
   return (
     <Card className={classes.card}>
-      <CardActionArea>
-        <Grid container>
+      <CardActionArea className={classes.cardAction} >
+        <Grid container alignItems="center">
           <Grid item xs={5}>
+            {image ?
             <CardMedia
               className={classes.media}
               image={image}
               title={name}
-            />
+            /> :
+            <Typography gutterBottom variant="h6" component="h6" align="center">
+               Image not available
+            </Typography>
+          }
           </Grid>
           <Grid item xs={7}>
             <CardContent className={classes.content}>

@@ -7,16 +7,15 @@ const useStyles = makeStyles({
   root: {
     display: 'flex',
     flexFlow: 'row wrap',
-    width: '100vw'
+    width: '100vw',
+    justifyContent: 'center'
   },
-
 });
 
 const FlexGrid = ({products}) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-
       {products.map((product, i) => (
         <MediaCard
           key={i}

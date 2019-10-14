@@ -6,7 +6,7 @@ import {
 } from '@material-ui/core';
 import axios from 'axios';
 import FlexGrid from './FlexGrid';
-import './App.css';
+import SeeMore from './SeeMore';
 
 // I would put the API key in a .env in a production app.
 const API_KEY ='mPlbr5GXMVkagVgzwT7T2V5X'
@@ -50,7 +50,8 @@ class App extends Component {
         this.setState({
           products,
           isLoading: false
-        })
+        });
+      window.requestOffset += window.requestOffset;
       }).catch(error => this.setState({
         error,
         isLoading: false
@@ -69,10 +70,10 @@ class App extends Component {
 
     return (
       <div>
-        <Typography color="textSecondary" variant="h6" component="h6">
-          Showing {products.length} products that match your search
-        </Typography>
-        <Button onClick={this.onRequestMoreProducts}>See more</Button>
+        <SeeMore
+          length={products.length}
+          onRequestMoreProducts={this.onRequestMoreProducts}
+        />
         <FlexGrid
           products={products}
         />
