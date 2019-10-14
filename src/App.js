@@ -1,5 +1,11 @@
 import React, { Component, Fragment } from 'react';
+import axios from 'axios';
 import './App.css';
+
+// I would put the API key in a .env in a production app.
+const API_KEY ='6cvpy87wue568w6cpzjy4dhk'
+const API = `https://api.bestbuy.com/v1/products(search=oven&search=stainless&search=steel)?format=json&show=all&apiKey=${API_KEY}`;
+
 
 class App extends Component {
   constructor(props) {
@@ -11,20 +17,20 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.setState({isLoading: true})
-    fetch(`https://api.bestbuy.com/v1/products(search=oven&search=stainless&search=steel)?format=json&show=all&apiKey=6cvpy87wue568w6cpzjy4dhk`)
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error('Something went wrong ...');
-        }
-      })
-      .then(data => this.setState({
-        products: data.products,
-        isLoading: false
-      }))
-      .catch(error => this.setState({ error, isLoading: false }));
+    this.setState({isLoading: true});
+
+    axios.get(API)
+      .then(result => {
+        const { data: { products } } = result;
+
+        this.setState({
+          products,
+          isLoading: false
+        })
+      }).catch(error => this.setState({
+        error,
+        isLoading:false
+      }));
   }
 
   render() {
@@ -41,6 +47,9 @@ class App extends Component {
       <div className="App">
         {products.map((product, i)=> (
           <Fragment key={i}>
+            <div>
+              <img src={product.image} aria-hidden alt={`Image of ${product.name}`}/>
+            </div>
             <div>{product.name}</div>
             <div>{product.regularPrice}</div>
             <div>{product.longDescription}</div>
@@ -52,4 +61,3 @@ class App extends Component {
 }
 
 export default App;
-
