@@ -9,7 +9,7 @@ import App from './App';
 configure({ adapter: new Adapter() });
 
 describe('App', () => {
-  const API_KEY = '6cvpy87wue568w6cpzjy4dhk'
+  const API_KEY = 'mPlbr5GXMVkagVgzwT7T2V5X'
   const API = `https://api.bestbuy.com/v1/products(search=oven&search=stainless&search=steel)?format=json&show=all&apiKey=${API_KEY}`;
   const mockResult = {
     data: {

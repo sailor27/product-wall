@@ -1,9 +1,11 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
+import {Grid, Typography} from '@material-ui/core';
 import axios from 'axios';
+import MediaCard from './MediaCard';
 import './App.css';
 
 // I would put the API key in a .env in a production app.
-const API_KEY ='6cvpy87wue568w6cpzjy4dhk'
+const API_KEY ='mPlbr5GXMVkagVgzwT7T2V5X'
 const API = `https://api.bestbuy.com/v1/products(search=oven&search=stainless&search=steel)?format=json&show=all&apiKey=${API_KEY}`;
 
 
@@ -44,18 +46,25 @@ class App extends Component {
     }
 
     return (
-      <div className="App">
-        {products.map((product, i)=> (
-          <Fragment key={i}>
-            <div>
-              <img src={product.image} aria-hidden alt={`Image of ${product.name}`}/>
-            </div>
-            <div>{product.name}</div>
-            <div>{product.regularPrice}</div>
-            <div>{product.longDescription}</div>
-          </Fragment>
-        ))}
-      </div>
+      <>
+        <Typography color="textSecondary" variant="h6" component="h6">
+          {products.length} Products Match Your Search
+        </Typography>
+
+        <Grid className="App" container>
+          {products.map((product, i)=> (
+            <Grid  item xs={12} key={i}>
+              <MediaCard
+                name={product.name}
+                image={product.image}
+                regularPrice={product.regularPrice}
+                longDescription={product.longDescription}
+                salePrice={product.salePrice}
+              />
+            </Grid>
+          ))}
+        </Grid>
+      </>
     );
   }
 }
