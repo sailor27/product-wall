@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
-import {Grid, Typography} from '@material-ui/core';
+import {
+  Typography,
+  LinearProgress,
+  Button
+} from '@material-ui/core';
 import axios from 'axios';
-import MediaCard from './MediaCard';
+import FlexGrid from './FlexGrid';
 import './App.css';
 
 // I would put the API key in a .env in a production app.
@@ -16,22 +20,40 @@ class App extends Component {
       isLoading: false,
       products: [],
     }
+    this.onRequestMoreProducts = this.onRequestMoreProducts.bind(this)
   }
 
   componentDidMount() {
-    this.setState({isLoading: true});
+    this.setState({
+      isLoading: true,
+    });
 
     axios.get(API)
       .then(result => {
         const { data: { products } } = result;
+        this.setState({
+          products,
+          isLoading: false
+        });
+        // In lieu of state management, store page counter on window
+        window.requestOffset = 2;
+      }).catch(error => this.setState({
+        error,
+        isLoading:false
+      }));
+  }
 
+  onRequestMoreProducts() {
+    axios.get(`https://api.bestbuy.com/v1/products(search=oven&search=stainless&search=steel)?format=json&show=all&page=${window.requestOffset}&apiKey=${API_KEY}`)
+    .then(result => {
+        const { data: { products } } = result;
         this.setState({
           products,
           isLoading: false
         })
       }).catch(error => this.setState({
         error,
-        isLoading:false
+        isLoading: false
       }));
   }
 
@@ -42,29 +64,19 @@ class App extends Component {
       return <p>{error.message}</p>;
     }
     if (isLoading) {
-      return <p>Loading ...</p>;
+      return <LinearProgress/>
     }
 
     return (
-      <>
+      <div>
         <Typography color="textSecondary" variant="h6" component="h6">
-          {products.length} Products Match Your Search
+          Showing {products.length} products that match your search
         </Typography>
-
-        <Grid className="App" container>
-          {products.map((product, i)=> (
-            <Grid  item xs={12} key={i}>
-              <MediaCard
-                name={product.name}
-                image={product.image}
-                regularPrice={product.regularPrice}
-                longDescription={product.longDescription}
-                salePrice={product.salePrice}
-              />
-            </Grid>
-          ))}
-        </Grid>
-      </>
+        <Button onClick={this.onRequestMoreProducts}>See more</Button>
+        <FlexGrid
+          products={products}
+        />
+      </div>
     );
   }
 }

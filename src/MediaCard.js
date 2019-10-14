@@ -12,11 +12,10 @@ import {
 
 const useStyles = makeStyles({
   card: {
-    height: 320
+    width: 660
   },
   media: {
-    height: 280,
-    objectFit: 'contain'
+    height: 200,
   }
 });
 
@@ -26,11 +25,11 @@ const MediaCard = ({name, image, longDescription, regularPrice, salePrice }) => 
   return (
     <Card className={classes.card}>
       <CardActionArea>
-        <Grid container >
+        <Grid container>
           <Grid item xs={5}>
             <CardMedia
               className={classes.media}
-              image={image || 'https://pisces.bbystatic.com/image2/BestBuy_US/images/products/5771/5771224_sa.jpg'}
+              image={image}
               title={name}
             />
           </Grid>
@@ -52,7 +51,6 @@ const MediaCard = ({name, image, longDescription, regularPrice, salePrice }) => 
               </Typography>
             </CardContent>
           </Grid>
-
         </Grid>
       </CardActionArea>
     </Card>

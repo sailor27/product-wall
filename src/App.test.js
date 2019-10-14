@@ -36,13 +36,6 @@ describe('App', () => {
     axios.get.restore();
   });
 
-  test('renders \"Loading...\" while waiting for product data', () => {
-    expect.assertions(1);
-
-    const wrapper = mount(<App />);
-    expect(wrapper.find('p').text()).toEqual('Loading ...');
-  });
-
   test('renders product data if fetched successfully', (done) => {
     expect.assertions(1);
 
