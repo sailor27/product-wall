@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Typography,
   LinearProgress,
-  Button
 } from '@material-ui/core';
 import axios from 'axios';
 import FlexGrid from './FlexGrid';
