@@ -70,7 +70,7 @@ const MediaCard = ({name, image, longDescription, regularPrice, salePrice }) => 
 
 MediaCard.propTypes = {
   name: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
+  image: PropTypes.string,
   longDescription: PropTypes.string.isRequired,
   regularPrice: PropTypes.number.isRequired,
   salePrice: PropTypes.number.isRequired

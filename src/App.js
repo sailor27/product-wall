@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-import {
-  LinearProgress,
-} from '@material-ui/core';
 import axios from 'axios';
 import FlexGrid from './FlexGrid';
-import SeeMore from './SeeMore';
+import Header from './Header';
 
 // I would put the API key in a .env in a production app.
 const API_KEY ='mPlbr5GXMVkagVgzwT7T2V5X'
@@ -16,12 +13,16 @@ class App extends Component {
     super(props);
     this.state = {
       isLoading: false,
+      error: '',
       products: [],
     }
-    this.onRequestMoreProducts = this.onRequestMoreProducts.bind(this)
+    this.onScroll = this.onScroll.bind(this);
+    this.isBottom = this.isBottom.bind(this);
+    this.onRequestMoreProducts = this.onRequestMoreProducts.bind(this);
   }
 
   componentDidMount() {
+    window.addEventListener('scroll', this.onScroll);
     this.setState({
       isLoading: true,
     });
@@ -29,6 +30,7 @@ class App extends Component {
     axios.get(API)
       .then(result => {
         const { data: { products } } = result;
+        
         this.setState({
           products,
           isLoading: false
@@ -41,10 +43,22 @@ class App extends Component {
       }));
   }
 
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.onScroll);
+  }
+
+  isBottom(el) {
+    return el.getBoundingClientRect().bottom <= window.innerHeight;
+  }
+
   onRequestMoreProducts() {
+    this.setState({
+      isLoading: true
+    });
     axios.get(`https://api.bestbuy.com/v1/products(search=oven&search=stainless&search=steel)?format=json&show=all&page=${window.requestOffset}&apiKey=${API_KEY}`)
     .then(result => {
         const { data: { products } } = result;
+
         this.setState({
           products,
           isLoading: false
@@ -56,19 +70,22 @@ class App extends Component {
       }));
   }
 
+  onScroll() {
+    const wrapper = document.getElementById('wrapper');
+
+    if (this.isBottom(wrapper)) {
+      this.onRequestMoreProducts();
+    }
+  }
+
   render() {
     const { products, isLoading, error } = this.state;
 
-    if (error) {
-      return <p>{error.message}</p>;
-    }
-    if (isLoading) {
-      return <LinearProgress/>
-    }
-
     return (
-      <div>
-        <SeeMore
+      <div id="wrapper">
+        <Header
+          isLoading={isLoading}
+          error={error}
           length={products.length}
           onRequestMoreProducts={this.onRequestMoreProducts}
         />
