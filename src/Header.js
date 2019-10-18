@@ -30,22 +30,22 @@ const useStyles = makeStyles({
   }
 });
 
-const Header = ({error, isLoading, length, onRequestMoreProducts}) => {
+const Header = ({ error, isLoading, length, onRequestMoreProducts }) => {
   const classes = useStyles();
   return (
     <>
       <div className={classes.root} id="header">
         <Typography variant="h6" component="h6">
-        Showing {length} products that match your search...
+          Showing {length} products that match your search...
         </Typography>
         <Button className={classes.button} onClick={onRequestMoreProducts}>
           See more
         </Button>
       </div>
-      {isLoading && <LinearProgress/>}
+      {isLoading && <LinearProgress />}
       {error &&
-         <Typography variant="h6" component="h6">
-        Showing {length} products that match your search...
+        <Typography variant="h6" component="h6">
+          {error}
         </Typography>
       }
     </>
@@ -56,6 +56,6 @@ Header.propTypes = {
   error: PropTypes.string,
   isLoading: PropTypes.bool,
   length: PropTypes.number,
-  onRequestMoreProducts: PropTypes.func
+  onRequestMoreProducts: PropTypes.func,
 }
 export default Header;
