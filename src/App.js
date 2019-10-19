@@ -30,7 +30,7 @@ class App extends Component {
     axios.get(API)
       .then(result => {
         const { data: { products } } = result;
-        
+
         this.setState({
           products,
           isLoading: false
@@ -57,12 +57,16 @@ class App extends Component {
     });
     axios.get(`https://api.bestbuy.com/v1/products(search=oven&search=stainless&search=steel)?format=json&show=all&page=${window.requestOffset}&apiKey=${API_KEY}`)
     .then(result => {
-        const { data: { products } } = result;
+      this.setState((prevState) => {
+        const { data: { products }} = result;
+        const newProducts = prevState.products;
 
-        this.setState({
-          products,
+        products.forEach(product => newProducts.push(product));
+        return {
+          products: newProducts,
           isLoading: false
-        });
+        }
+      });
       window.requestOffset += window.requestOffset;
       }).catch(error => this.setState({
         error,
@@ -86,7 +90,7 @@ class App extends Component {
         <Header
           isLoading={isLoading}
           error={error}
-          length={products.length}
+          length={products.length || 0}
           onRequestMoreProducts={this.onRequestMoreProducts}
         />
         <FlexGrid
