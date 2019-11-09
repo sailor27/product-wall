@@ -4,8 +4,8 @@
 #### Author: Sailor Winkelman
 
 #### Description:
-This project displays a list of 10 cards  at a time, representing the results of a query to the [Best Buy API](https://bestbuyapis.github.io/api-documentation).
-
+* This project queries the [Best Buy API](https://bestbuyapis.github.io/api-documentation) and displays the results as cards.
+* Scroll to the bottom of the page or press "See more" to fetch more products to view.
 
 #### Technologies Used
 
