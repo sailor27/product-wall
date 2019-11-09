@@ -33,10 +33,9 @@ class App extends Component {
 
         this.setState({
           products,
-          isLoading: false
+          isLoading: false,
+          requestOffset: 2
         });
-        // In lieu of state management, store page counter on window
-        window.requestOffset = 2;
       }).catch(error => this.setState({
         error,
         isLoading:false
@@ -55,19 +54,20 @@ class App extends Component {
     this.setState({
       isLoading: true
     });
-    axios.get(`https://api.bestbuy.com/v1/products(search=oven&search=stainless&search=steel)?format=json&show=all&page=${window.requestOffset}&apiKey=${API_KEY}`)
+    axios.get(`https://api.bestbuy.com/v1/products(search=oven&search=stainless&search=steel)?format=json&show=all&page=${this.state.requestOffset}&apiKey=${API_KEY}`)
     .then(result => {
       this.setState((prevState) => {
-        const { data: { products }} = result;
-        const newProducts = prevState.products;
+          const { data: { products }} = result;
+          const newProducts = prevState.products;
 
-        products.forEach(product => newProducts.push(product));
-        return {
-          products: newProducts,
-          isLoading: false
-        }
-      });
-      window.requestOffset += window.requestOffset;
+          products.forEach(product => newProducts.push(product));
+          
+          return {
+            products: newProducts,
+            isLoading: false,
+            requestOffset: prevState.requestOffset + 1
+          }
+        });
       }).catch(error => this.setState({
         error,
         isLoading: false
@@ -76,7 +76,6 @@ class App extends Component {
 
   onScroll() {
     const wrapper = document.getElementById('wrapper');
-
     if (this.isBottom(wrapper)) {
       this.onRequestMoreProducts();
     }
