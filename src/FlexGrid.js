@@ -9,13 +9,14 @@ const useStyles = makeStyles({
     flexFlow: 'row wrap',
     width: '100vw',
     justifyContent: 'center'
-  },
+  }
 });
 
 const FlexGrid = ({products}) => {
   const classes = useStyles();
+  
   return (
-    <div className={classes.root}>
+    <div className={`${classes.root} griddle`}>
       {products.map((product, i) => (
         <MediaCard
           key={i}

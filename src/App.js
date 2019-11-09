@@ -17,7 +17,6 @@ class App extends Component {
       products: [],
     }
     this.onScroll = this.onScroll.bind(this);
-    this.isBottom = this.isBottom.bind(this);
     this.onRequestMoreProducts = this.onRequestMoreProducts.bind(this);
   }
 
@@ -46,10 +45,6 @@ class App extends Component {
     window.removeEventListener('scroll', this.onScroll);
   }
 
-  isBottom(el) {
-    return el.getBoundingClientRect().bottom <= window.innerHeight;
-  }
-
   onRequestMoreProducts() {
     this.setState({
       isLoading: true
@@ -75,10 +70,15 @@ class App extends Component {
   }
 
   onScroll() {
-    const wrapper = document.getElementById('wrapper');
-    if (this.isBottom(wrapper)) {
+    const lastCard = document.querySelector("div.griddle > div:last-child");
+    const lastCardOffset = lastCard.offsetTop + lastCard.clientHeight;
+    const pageOffset = window.pageYOffset + window.innerHeight;
+
+    if (pageOffset > lastCardOffset){
       this.onRequestMoreProducts();
+      lastCard.scrollIntoView();
     }
+
   }
 
   render() {
